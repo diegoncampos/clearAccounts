@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
+import { EventDetailPage } from '../event-detail/event-detail';
 
 /**
  * Generated class for the AddEventPage page.
@@ -15,8 +16,9 @@ import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angu
 })
 export class AddEventPage {
 
-  public event:any = {name:"", description: "", date:"", startTime: ""};
-  public guests = [];
+  public event:any = {name:"", description: "", date:"", startTime: "", totalCost: ""};
+  public guests:any = [];
+  public costPerPerson:number = 0;
 
   constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
   }
@@ -28,9 +30,17 @@ export class AddEventPage {
   addGuest() {
     let prompt = this.alertCtrl.create({
       title: 'Add Guest',
-      inputs: [{
-        name: 'name'
-      }],
+      inputs: [
+        {
+          name: 'name',
+          placeholder: 'Name'
+        },
+        {
+          name: 'contribution',
+          type: 'number',
+          placeholder: 'Contribution'
+        }
+      ],
       buttons: [
         {
           text: 'Cancel'
@@ -39,7 +49,8 @@ export class AddEventPage {
           text: 'Add',
           handler: data => {
             console.log("Add:", data)
-            this.guests.push(data.name);
+            this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution});
+            this.costPeePerson();
           }
         }
       ]
@@ -83,6 +94,14 @@ export class AddEventPage {
 
     prompt.present();
 
+  }
+
+  costPeePerson() {
+    this.costPerPerson = this.guests.length ? +this.event.totalCost / this.guests.length : +this.event.totalCost;
+  }
+
+  openEventDetail() {
+    this.navCtrl.push(EventDetailPage, {guest: this.guests, event: this.event, costPerPerson: this.costPerPerson});
   }
 
 }

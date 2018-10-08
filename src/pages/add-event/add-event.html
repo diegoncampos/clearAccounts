@@ -25,10 +25,10 @@
       <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.date"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Total Cost" [(ngModel)]="event.description"></ion-input>
+      <ion-input placeholder="Total Cost" [(ngModel)]="event.totalCost" (input)="costPeePerson()"></ion-input>
     </ion-item>
     <!-- <ion-item>
-      <ion-label>Start Time</ion-label>
+      <ion-label>Start Time</ion-label>)
       <ion-datetime displayFormat="h:mm A" pickerFormat="h mm A" [(ngModel)]="event.startTime"></ion-datetime>
     </ion-item> -->
 
@@ -43,7 +43,7 @@
         <ion-item-sliding *ngFor="let guest of guests">
 
           <ion-item>
-            {{guest}}
+            {{guest.name}} - ${{guest.contribution}}
           </ion-item>
 
           <ion-item-options side="left">
@@ -68,5 +68,13 @@
 
     </ion-card-content>
   </ion-card>
+
+  <ion-item>
+      <ion-label>Cost per person: ${{costPerPerson | number:'1.2-2'}}</ion-label>
+    <!-- <ion-input placeholder="Cost per person" [(ngModel)]="costPerPerson" [readonly]="true"></ion-input> -->
+  </ion-item>
+  <!-- <ion-item> -->
+    <button ion-button full color="light" (click)="openEventDetail()">Event Details</button>
+  <!-- </ion-item> -->
 
 </ion-content>
