@@ -48,8 +48,7 @@ export class AddEventPage {
         {
           text: 'Add',
           handler: data => {
-            console.log("Add:", data)
-            this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution});
+            this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution === ''? 0 : data.contribution});
             this.costPeePerson();
           }
         }
@@ -72,10 +71,17 @@ export class AddEventPage {
 
     let prompt = this.alertCtrl.create({
       title: 'Edit Guest: ',
-      inputs: [{
+      inputs: [
+        {
         name: 'name',
-        value: this.guests[index]
-      }],
+        value: this.guests[index].name
+      },
+      {
+        name: 'contribution',
+        type: 'number',
+        value: this.guests[index].contribution
+      }
+    ],
       buttons: [
         {
           text: 'Cancel'
@@ -85,7 +91,8 @@ export class AddEventPage {
           handler: data => {
 
             if (index > -1) {
-              this.guests[index] = data.name;
+              this.guests[index].name = data.name;
+              this.guests[index].contribution = data.contribution;
             }
           }
         }

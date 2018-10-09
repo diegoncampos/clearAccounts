@@ -17,15 +17,15 @@
     <ion-item>
       <ion-input placeholder="Event" [(ngModel)]="event.name"></ion-input>
     </ion-item>
-    <ion-item>
+    <!-- <ion-item>
       <ion-input placeholder="Description" [(ngModel)]="event.description"></ion-input>
-    </ion-item>
+    </ion-item> -->
     <ion-item>
       <ion-label>Date</ion-label>
       <ion-datetime displayFormat="MMM DD YYYY" [(ngModel)]="event.date"></ion-datetime>
     </ion-item>
     <ion-item>
-      <ion-input placeholder="Total Cost" [(ngModel)]="event.totalCost" (input)="costPeePerson()"></ion-input>
+      <ion-input placeholder="Total Cost" [(ngModel)]="event.totalCost" (input)="costPeePerson()" type="number"></ion-input>
     </ion-item>
     <!-- <ion-item>
       <ion-label>Start Time</ion-label>)
@@ -70,8 +70,7 @@
   </ion-card>
 
   <ion-item>
-      <ion-label>Cost per person: ${{costPerPerson | number:'1.2-2'}}</ion-label>
-    <!-- <ion-input placeholder="Cost per person" [(ngModel)]="costPerPerson" [readonly]="true"></ion-input> -->
+      <ion-label>Approximate cost per person: ${{costPerPerson | number:'1.2-2'}}</ion-label>
   </ion-item>
   <!-- <ion-item> -->
     <button ion-button full color="light" (click)="openEventDetail()">Event Details</button>
