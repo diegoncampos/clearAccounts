@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavController, NavParams, AlertController } from 'ionic-angular';
 import { EventDetailPage } from '../event-detail/event-detail';
+import { Storage } from '@ionic/storage';
 
 /**
  * Generated class for the AddEventPage page.
@@ -19,12 +20,21 @@ export class AddEventPage {
   public event:any = {name:"", description: "", date:"", startTime: "", totalCost: ""};
   public guests:any = [];
   public costPerPerson:number = 0;
+  public myGuests:any = [];
 
-  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController) {
+  constructor(public navCtrl: NavController, public navParams: NavParams, public alertCtrl: AlertController, private storage: Storage) {
+    // this.storage.set("guestsList", JSON.stringify(this.myGuests));
   }
 
   ionViewDidLoad() {
     console.log('ionViewDidLoad AddEventPage');
+  }
+
+  ionViewWillEnter() {  // each time you enter to tab call ionViewWillEnter()
+    this.storage.get('guestsList').then((val) => {
+      this.myGuests = val ? JSON.parse(val): [];
+      console.log("LOADING: ionViewWillEnter", this.myGuests)
+    });
   }
 
   addGuest() {
@@ -48,13 +58,56 @@ export class AddEventPage {
         {
           text: 'Add',
           handler: data => {
-            this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution === ''? 0 : data.contribution});
-            this.costPeePerson();
+            if (data.name !== '') {
+              this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution === ''? 0 : data.contribution});
+              this.costPeePerson();
+              this.myGuests.push(data.name);
+              this.storage.set("guestsList", JSON.stringify(this.myGuests));
+            }
           }
         }
       ]
     });
     prompt.present();
+  }
+
+  selectGuest() {
+    var loadedGuest: any = [];
+
+    // this.storage.get('guestsList').then((val) => {
+    //   this.myGuests = val ? JSON.parse(val) : [];
+      this.myGuests.forEach((name) => {
+        loadedGuest.push({
+          name: name,
+          type:'checkbox',
+          checked:false,
+          label: name,
+          value:name
+       })
+      });
+      let prompt = this.alertCtrl.create({
+        title: 'Select Guests',
+        inputs : loadedGuest,
+        buttons: [
+          {
+            text: 'Cancel'
+          },
+          {
+            text: 'Add',
+            handler: data => {
+              if (data) {
+                data.forEach(name => {
+                  this.guests.push({name: name, debit: "", assets: "", contribution: 0});
+                  this.costPeePerson();
+                });
+              }
+            }
+          }
+        ]
+      });
+      prompt.present();
+    // });
+
   }
 
   deleteGuest(guest) {

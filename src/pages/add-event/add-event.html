@@ -60,8 +60,10 @@
         </ion-item-sliding>
         <ion-item padding>
           <button default ion-button item-right (click)="addGuest()">
-            <!-- <ion-icon name="add" solid></ion-icon> -->
-            ADD
+            ADD NEW GUEST
+          </button>
+          <button default ion-button item-right (click)="selectGuest()" color="light" [disabled]="myGuests.length == 0">
+            SELECT GUEST
           </button>
         </ion-item>
       </ion-list>

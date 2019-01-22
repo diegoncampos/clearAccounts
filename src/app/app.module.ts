@@ -8,10 +8,12 @@ import { TabsPage } from '../pages/tabs/tabs';
 import { AddEventPage } from '../pages/add-event/add-event';
 import { LastEventsPage } from '../pages/last-events/last-events';
 import { EventDetailPage } from '../pages/event-detail/event-detail';
+import { MyGuestsPage } from '../pages/my-guests/my-guests';
 
 import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { SocialSharing } from '@ionic-native/social-sharing';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
   declarations: [
@@ -20,11 +22,13 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     TabsPage,
     AddEventPage,
     LastEventsPage,
-    EventDetailPage
+    EventDetailPage,
+    MyGuestsPage
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -33,7 +37,8 @@ import { SocialSharing } from '@ionic-native/social-sharing';
     TabsPage,
     AddEventPage,
     LastEventsPage,
-    EventDetailPage
+    EventDetailPage,
+    MyGuestsPage
   ],
   providers: [
     StatusBar,
