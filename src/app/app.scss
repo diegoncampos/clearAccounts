@@ -14,3 +14,33 @@
 // To declare rules for a specific mode, create a child rule
 // for the .md, .ios, or .wp mode classes. The mode class is
 // automatically applied to the <body> element in the app.
+
+ion-content{
+    // background: url(../assets/background.jpg); // just backround image
+
+    // allow gradient on the background image, looking like a transparency
+    background: linear-gradient(rgba(255,255,255,1), rgba(255,255,255,.9)), url(../assets/background.jpg);
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+    margin: auto;
+    z-index: 2;
+    position: relative;
+
+    ion-item, ion-card, ion-item-options, .item-md {
+        background-color: rgba(255,255,255, 0.7) !important;
+    }
+
+    // It's no good!!! check!!!!! (las listas no se ponen transparentes ya que son elemento sobre elemento
+    // y se superponen los background-color, y parece que no fueran transparentes,
+    // esta solucion deberia chequearse y verificar que no se rompan otras cosas, demasiados !important
+    ion-list {
+        background: transparent !important;
+        ion-item-sliding, ion-item {
+            background: transparent !important;
+            .item-md {
+                background: transparent !important;
+            }
+        }
+    }
+}

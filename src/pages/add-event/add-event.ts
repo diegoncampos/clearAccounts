@@ -60,6 +60,7 @@ export class AddEventPage {
           handler: data => {
             if (data.name !== '') {
               this.guests.push({name: data.name, debit: "", assets: "", contribution: data.contribution === ''? 0 : data.contribution});
+              this.calculateTotalCost();
               this.costPeePerson();
               this.myGuests.push(data.name);
               this.storage.set("guestsList", JSON.stringify(this.myGuests));
@@ -115,6 +116,8 @@ export class AddEventPage {
 
     if (index > -1) {
       this.guests.splice(index, 1);
+      console.log("Guest puso:", guest)
+      this.event.totalCost -= guest.contribution;
     }
   }
 
@@ -146,6 +149,8 @@ export class AddEventPage {
             if (index > -1) {
               this.guests[index].name = data.name;
               this.guests[index].contribution = data.contribution;
+              this.calculateTotalCost();
+              this.costPeePerson();
             }
           }
         }
@@ -158,6 +163,14 @@ export class AddEventPage {
 
   costPeePerson() {
     this.costPerPerson = this.guests.length ? +this.event.totalCost / this.guests.length : +this.event.totalCost;
+  }
+
+  calculateTotalCost() {
+    this.event.totalCost = 0;
+    this.guests.forEach(guest => {
+      console.log(guest)
+      this.event.totalCost = +this.event.totalCost + +guest.contribution;
+    });
   }
 
   openEventDetail() {
